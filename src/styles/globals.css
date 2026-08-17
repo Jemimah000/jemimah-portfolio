@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap");
+
+@import "tailwindcss";
+
+:root {
+  font-family: "DM Sans", sans-serif;
+  color: #19171c;
+  background: #f4eee3;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(155, 126, 222, 0.08), transparent 25%),
+    radial-gradient(circle at 90% 80%, rgba(244, 211, 94, 0.1), transparent 25%),
+    #f4eee3;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: #9b7ede;
+  color: white;
+}
+
+.font-display {
+  font-family: "Playfair Display", serif;
+}
+
+.font-hand {
+  font-family: "Caveat", cursive;
+}
+
+.font-mono {
+  font-family: "DM Mono", monospace;
+}
+
+/* Paper texture */
+
+.paper-texture {
+  position: relative;
+}
+
+.paper-texture::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.12;
+  z-index: 50;
+  background-image:
+    radial-gradient(rgba(25, 23, 28, 0.3) 0.5px, transparent 0.5px);
+  background-size: 5px 5px;
+}
+
+/* Physical card shadow */
+
+.paper-shadow {
+  box-shadow: 5px 5px 0 #19171c;
+}
+
+.paper-shadow-soft {
+  box-shadow: 4px 4px 0 rgba(25, 23, 28, 0.15);
+}
+
+/* Hand-drawn border */
+
+.hand-border {
+  border: 2px solid #19171c;
+  border-radius: 4px 7px 5px 8px;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e9e0d2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #19171c;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6f5aa9;
+}

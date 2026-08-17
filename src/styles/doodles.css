@@ -1,0 +1,20 @@
+.doodle-star {
+  font-family: "Caveat", cursive;
+  line-height: 1;
+}
+
+.doodle-arrow {
+  font-family: "Caveat", cursive;
+  transform: rotate(-8deg);
+}
+
+.tape {
+  position: absolute;
+  width: 72px;
+  height: 22px;
+  background: rgba(244, 211, 94, 0.7);
+  transform: rotate(-4deg);
+  top: -10px;
+  left: 50%;
+  translate: -50% 0;
+}
