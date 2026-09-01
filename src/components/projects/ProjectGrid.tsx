@@ -10,10 +10,11 @@ export default function ProjectGrid() {
   return (
     <>
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <ProjectCard
             key={project.title}
             project={project}
+            index={index}
             onClick={() => setSelectedProject(project)}
           />
         ))}
