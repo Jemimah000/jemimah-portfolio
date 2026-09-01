@@ -1,93 +1,298 @@
-import { ArrowDown, ArrowUpRight } from "lucide-react";
-import Button from "../common/Button";
-import Doodle from "../common/Doodle";
-import CharacterScene from "./CharacterScene";
-import { about } from "../../data/about";
+import { motion } from "framer-motion";
+import {
+  ArrowDown,
+  ArrowUpRight,
+  Download,
+  Sparkles,
+} from "lucide-react";
 
 export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen overflow-hidden px-6 pb-20 pt-10 lg:px-12"
+      className="relative min-h-screen overflow-hidden bg-[#0d1028] px-6 pb-40 pt-10 text-[#f9f3e8] lg:px-12 lg:pt-14"
     >
-      <div className="absolute right-10 top-16 font-mono text-[10px] text-[#19171c]/40">
-        EST. 2006
+      {/* =========================
+          STAR BACKGROUND
+      ========================== */}
+
+      <div className="absolute inset-0 opacity-60">
+        <div className="hero-stars" />
       </div>
 
-      <Doodle className="absolute left-[8%] top-24 text-3xl" />
-      <Doodle
-        type="heart"
-        className="absolute right-[7%] top-[38%] text-4xl text-[#ef806d]"
-      />
+      {/* Purple glow */}
 
-      <div className="grid min-h-[85vh] items-center gap-8 lg:grid-cols-[1fr_1.1fr]">
-        <div className="max-w-2xl">
-          <div className="mb-6 inline-flex rotate-[-2deg] items-center gap-2 border-2 border-[#19171c] bg-[#f4d35e] px-4 py-2 font-mono text-xs paper-shadow-soft">
-            <span>✦</span>
-            SOFTWARE PRODUCT ENGINEER
+      <div className="absolute left-[30%] top-[10%] h-[400px] w-[400px] rounded-full bg-[#7c5ce0]/20 blur-[120px]" />
+
+      {/* =========================
+          PLANET
+      ========================== */}
+
+      <motion.div
+        className="absolute left-[48%] top-8 hidden lg:block"
+        animate={{
+          y: [0, -12, 0],
+          rotate: [0, 6, 0],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <div className="relative h-20 w-20 rounded-full bg-gradient-to-br from-[#d5a8ff] to-[#7e5ad6] shadow-[0_0_50px_rgba(174,119,255,0.5)]">
+          <div className="absolute -left-7 top-7 h-7 w-36 rotate-[-10deg] rounded-[50%] border-4 border-[#ffd45c]" />
+        </div>
+      </motion.div>
+
+      {/* =========================
+          UFO
+      ========================== */}
+
+      <motion.div
+        className="absolute right-[8%] top-10 hidden lg:block"
+        animate={{
+          y: [0, -15, 0],
+          x: [0, 8, 0],
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <div className="relative">
+          <div className="mx-auto h-10 w-16 rounded-t-full bg-[#9dd8f5]/70" />
+
+          <div className="h-9 w-28 rounded-[50%] border border-[#d7c9ff] bg-[#9282ba] shadow-[0_0_25px_rgba(170,135,255,0.4)]" />
+
+          <div className="absolute left-1/2 top-[80%] h-20 w-16 -translate-x-1/2 bg-gradient-to-b from-[#f4e685]/30 to-transparent blur-xl" />
+        </div>
+      </motion.div>
+
+      {/* =========================
+          MAIN CONTENT
+      ========================== */}
+
+      <div className="relative z-10 mx-auto grid min-h-[82vh] max-w-[1500px] items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+        {/* LEFT SIDE */}
+
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{
+            duration: 0.8,
+            ease: "easeOut",
+          }}
+        >
+          {/* Arrow */}
+
+          <div className="mb-2 hidden lg:block">
+            <div className="font-hand text-5xl text-[#b895ff]">
+              ⤴
+            </div>
           </div>
 
-          <p className="font-hand text-2xl text-[#7c65b5]">
-            Hi there! I'm
+          {/* Greeting */}
+
+          <p className="font-hand text-3xl text-[#8ee2f0] md:text-4xl">
+            Heyy! I'm ♡
           </p>
 
-          <h1 className="mt-1 font-display text-[clamp(4rem,9vw,8.5rem)] font-semibold leading-[0.82] tracking-[-0.06em]">
+          {/* Name */}
+
+          <h1 className="relative mt-2 font-display text-[clamp(5rem,10vw,10rem)] font-bold leading-[0.8] tracking-[-0.06em] text-[#f7f1e8]">
             Jemimah
           </h1>
 
-          <div className="mt-3 flex items-center gap-3">
-            <span className="font-hand text-4xl text-[#8c70d0]">
-              Mary Manuel
+          {/* Role */}
+
+          <motion.div
+            className="relative mt-7 inline-block rotate-[-3deg]"
+            whileHover={{
+              rotate: 0,
+              scale: 1.04,
+            }}
+          >
+            <div className="rounded-sm bg-[#ffd65f] px-6 py-2 font-hand text-2xl text-[#171426] shadow-[5px_5px_0_rgba(255,255,255,0.15)]">
+              Developer. Designer. Dreamer.
+            </div>
+          </motion.div>
+
+          {/* Description */}
+
+          <p className="mt-8 max-w-xl text-lg leading-8 text-[#f7f1e8]/80 md:text-xl">
+            I build digital experiences where
+            <br />
+            technology meets{" "}
+            <span className="font-semibold text-[#c6a8ff]">
+              creativity.
             </span>
-
-            <Doodle type="heart" className="text-3xl" />
-          </div>
-
-          <p className="mt-8 max-w-xl text-lg leading-8 text-[#19171c]/65">
-            {about.shortIntro}
           </p>
 
-          <p className="mt-4 max-w-lg font-mono text-xs leading-6 text-[#19171c]/45">
-            Curious mind. Creative hands. Always building something.
-          </p>
+          {/* Buttons */}
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <a href="#projects">
-              <Button variant="yellow">
-                Explore My Work <ArrowUpRight className="ml-2 inline" size={16} />
-              </Button>
+            <a
+              href="#projects"
+              className="group inline-flex items-center gap-3 rounded-xl bg-[#8058d6] px-6 py-4 text-sm font-semibold text-white shadow-[0_8px_25px_rgba(112,76,200,0.45)] transition hover:-translate-y-1 hover:bg-[#916cff]"
+            >
+              Explore My Work
+
+              <ArrowUpRight
+                size={17}
+                className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+              />
             </a>
 
-            <a href="#contact">
-              <Button variant="outline">
-                Let's Connect <ArrowUpRight className="ml-2 inline" size={16} />
-              </Button>
+            <a
+              href="/resume.pdf"
+              className="group inline-flex items-center gap-3 rounded-xl border border-white/50 bg-white/5 px-6 py-4 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-1 hover:bg-white/10"
+            >
+              Download CV
+
+              <Download
+                size={16}
+                className="transition-transform group-hover:translate-y-1"
+              />
             </a>
           </div>
 
-          <div className="mt-10 flex items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-[#19171c]/40">
-            <ArrowDown size={14} />
+          {/* Scroll */}
+
+          <div className="mt-12 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
+            <ArrowDown size={15} />
             Scroll to explore
           </div>
-        </div>
+        </motion.div>
 
-        <div className="relative">
-          <div className="absolute inset-8 rounded-full bg-[#9b7ede]/10 blur-3xl" />
+        {/* =========================
+            RIGHT SIDE
+        ========================== */}
 
-          <div className="relative overflow-hidden rounded-[30px] border-2 border-[#19171c]/10 bg-[#eee5d7]/60">
-            <div className="absolute left-5 top-5 z-10 rotate-[-4deg] bg-[#f4d35e] px-4 py-2 font-hand text-lg paper-shadow-soft">
-              make ideas happen
+        <motion.div
+          className="relative flex min-h-[580px] items-center justify-center"
+          initial={{
+            opacity: 0,
+            scale: 0.92,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+          }}
+          transition={{
+            duration: 0.9,
+            delay: 0.2,
+          }}
+        >
+          {/* Outer glow */}
+
+          <div className="absolute h-[470px] w-[470px] rounded-full bg-[#9b72ed]/30 blur-[90px]" />
+
+          {/* Portal */}
+
+          <motion.div
+            className="relative h-[540px] w-[400px] overflow-hidden rounded-[190px_190px_35px_35px] border-[8px] border-[#8f69d3] bg-gradient-to-b from-[#ffd55f] via-[#f6c862] to-[#8b5fd0] shadow-[0_0_50px_rgba(143,105,211,0.6)]"
+            animate={{
+              y: [0, -8, 0],
+            }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            {/* inner glow */}
+
+            <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-[#1d1740]/30" />
+
+            {/* crown */}
+
+            <div className="absolute left-1/2 top-5 z-20 -translate-x-1/2 text-5xl text-white">
+              ♕
             </div>
 
-            <div className="absolute bottom-8 right-5 z-10 rotate-[4deg] bg-[#faf5eb] px-4 py-3 font-hand text-lg paper-shadow-soft">
-              stay curious
+            {/* Photo */}
+
+            <img
+              src="/images/profile/jemimah.png"
+              alt="Jemimah Mary Manuel"
+              className="absolute bottom-0 left-1/2 z-10 h-[480px] w-auto max-w-none -translate-x-1/2 object-contain drop-shadow-[0_15px_20px_rgba(0,0,0,0.35)]"
+            />
+          </motion.div>
+
+          {/* Left sticky note */}
+
+          <motion.div
+            className="absolute bottom-20 left-0 z-30 hidden rotate-[-7deg] bg-[#fff0bd] px-6 py-5 text-[#171426] shadow-[6px_6px_0_rgba(0,0,0,0.18)] lg:block"
+            animate={{
+              rotate: [-7, -4, -7],
+              y: [0, -6, 0],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <p className="font-hand text-xl">
+              code. create.
               <br />
-              keep building ♡
-            </div>
+              inspire :)
+            </p>
+          </motion.div>
 
-            <CharacterScene />
+          {/* Right speech bubble */}
+
+          <motion.div
+            className="absolute right-[-25px] top-24 z-30 hidden rotate-[7deg] rounded-xl border-2 border-[#d9cba9] bg-[#fff6dc] px-6 py-5 text-[#171426] shadow-[5px_5px_0_rgba(0,0,0,0.18)] lg:block"
+            animate={{
+              rotate: [7, 4, 7],
+              y: [0, -8, 0],
+            }}
+            transition={{
+              duration: 4.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <p className="font-hand text-lg">
+              Building ideas
+              <br />
+              with logic &
+              <br />
+              imagination ♡
+            </p>
+          </motion.div>
+
+          {/* Decorative stars */}
+
+          <Sparkles className="absolute -left-5 top-[18%] text-[#ffd65f]" />
+
+          <div className="absolute right-2 bottom-20 text-4xl text-[#f6a0c0]">
+            ✿
           </div>
-        </div>
+        </motion.div>
+      </div>
+
+      {/* =========================
+          CLOUDS
+      ========================== */}
+
+      <div className="absolute bottom-24 left-[38%] hidden lg:block">
+        <div className="h-20 w-44 rounded-full bg-[#f6f0ed] opacity-90 shadow-[0_8px_30px_rgba(255,255,255,0.1)]" />
+      </div>
+
+      <div className="absolute bottom-16 right-[4%] hidden lg:block">
+        <div className="h-24 w-52 rounded-full bg-[#f6f0ed] opacity-90" />
+      </div>
+
+      {/* =========================
+          CURVED BOTTOM TRANSITION
+      ========================== */}
+
+      <div className="absolute bottom-0 left-0 h-32 w-full overflow-hidden">
+        <div className="absolute -bottom-24 left-[-5%] h-48 w-[110%] rounded-t-[50%] bg-[#f4eee3]" />
       </div>
     </section>
   );

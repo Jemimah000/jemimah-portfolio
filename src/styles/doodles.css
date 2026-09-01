@@ -1,20 +1,143 @@
-.doodle-star {
+/* =========================
+   DOODLE BASE
+========================= */
+
+.doodle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   font-family: "Caveat", cursive;
   line-height: 1;
+
+  user-select: none;
 }
 
-.doodle-arrow {
-  font-family: "Caveat", cursive;
-  transform: rotate(-8deg);
+/* =========================
+   STARS
+========================= */
+
+.doodle-star {
+  color: #ffd166;
+
+  font-size: 1.8rem;
+
+  text-shadow:
+    1px 1px 0 #1d1b35;
 }
+
+.doodle-spark {
+  color: #7c5ce7;
+
+  font-size: 2rem;
+}
+
+/* =========================
+   HEART
+========================= */
+
+.doodle-heart {
+  color: #ff8e8e;
+
+  font-size: 2rem;
+
+  text-shadow:
+    1px 1px 0 rgba(29, 27, 53, 0.18);
+}
+
+/* =========================
+   ARROW
+========================= */
+
+.doodle-arrow {
+  color: #1d1b35;
+
+  font-size: 2.4rem;
+
+  transform: rotate(-10deg);
+}
+
+/* =========================
+   CLOUD
+========================= */
+
+.doodle-cloud {
+  color: #ffffff;
+
+  font-size: 3rem;
+
+  filter:
+    drop-shadow(2px 3px 0 rgba(29, 27, 53, 0.15));
+}
+
+/* =========================
+   TAPE
+========================= */
 
 .tape {
   position: absolute;
-  width: 72px;
-  height: 22px;
-  background: rgba(244, 211, 94, 0.7);
-  transform: rotate(-4deg);
-  top: -10px;
-  left: 50%;
-  translate: -50% 0;
+
+  width: 76px;
+  height: 24px;
+
+  background:
+    rgba(255, 209, 102, 0.72);
+
+  transform:
+    rotate(-4deg);
+
+  box-shadow:
+    0 1px 2px rgba(29, 27, 53, 0.08);
+}
+
+.tape-purple {
+  background:
+    rgba(124, 92, 231, 0.35);
+}
+
+.tape-pink {
+  background:
+    rgba(255, 142, 142, 0.45);
+}
+
+/* =========================
+   DOT PATTERN
+========================= */
+
+.doodle-dots {
+  background-image:
+    radial-gradient(
+      #7c5ce7 1.4px,
+      transparent 1.4px
+    );
+
+  background-size: 12px 12px;
+}
+
+/* =========================
+   SQUIGGLE
+========================= */
+
+.doodle-squiggle {
+  font-family: "Caveat", cursive;
+
+  font-size: 3rem;
+  font-weight: 700;
+
+  color: #7c5ce7;
+}
+
+/* =========================
+   LITTLE ORBIT
+========================= */
+
+.orbit-doodle {
+  position: absolute;
+
+  width: 130px;
+  height: 130px;
+
+  border: 2px dashed rgba(124, 92, 231, 0.3);
+
+  border-radius: 50%;
 }

@@ -1,13 +1,38 @@
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Caveat:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap");
 
 @import "tailwindcss";
 
 :root {
   font-family: "DM Sans", sans-serif;
-  color: #19171c;
-  background: #f4eee3;
+
+  color: #1d1b35;
+  background: #fff7e8;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+
+  --cream: #fff7e8;
+  --cream-dark: #f4ead7;
+
+  --ink: #1d1b35;
+  --ink-soft: #37334f;
+
+  --purple: #7c5ce7;
+  --purple-light: #e9e2ff;
+
+  --yellow: #ffd166;
+  --yellow-light: #fff0bf;
+
+  --pink: #ff8e8e;
+  --pink-light: #ffe0e0;
+
+  --mint: #6ed3cf;
+  --mint-light: #d8f7f5;
+
+  --blue: #8bb8ff;
+  --blue-light: #e2edff;
+
+  --white: #ffffff;
 }
 
 * {
@@ -16,15 +41,35 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  min-height: 100vh;
+
+  overflow-x: hidden;
+
+  color: var(--ink);
+
   background:
-    radial-gradient(circle at 20% 10%, rgba(155, 126, 222, 0.08), transparent 25%),
-    radial-gradient(circle at 90% 80%, rgba(244, 211, 94, 0.1), transparent 25%),
-    #f4eee3;
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(124, 92, 231, 0.08),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 90% 30%,
+      rgba(255, 209, 102, 0.13),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 50% 90%,
+      rgba(110, 211, 207, 0.1),
+      transparent 25%
+    ),
+    var(--cream);
 }
 
 button,
@@ -32,13 +77,26 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+button {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 ::selection {
-  background: #9b7ede;
+  background: var(--purple);
   color: white;
 }
 
+/* =========================
+   TYPOGRAPHY
+========================= */
+
 .font-display {
-  font-family: "Playfair Display", serif;
+  font-family: "Baloo 2", sans-serif;
 }
 
 .font-hand {
@@ -49,56 +107,269 @@ a {
   font-family: "DM Mono", monospace;
 }
 
-/* Paper texture */
-
-.paper-texture {
-  position: relative;
+.font-serif {
+  font-family: "Playfair Display", serif;
 }
 
-.paper-texture::before {
+/* =========================
+   MAIN PORTFOLIO CANVAS
+========================= */
+
+.jem-universe {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.jem-universe::before {
   content: "";
+
   position: fixed;
   inset: 0;
+
   pointer-events: none;
-  opacity: 0.12;
   z-index: 50;
+
+  opacity: 0.035;
+
   background-image:
-    radial-gradient(rgba(25, 23, 28, 0.3) 0.5px, transparent 0.5px);
+    radial-gradient(
+      rgba(29, 27, 53, 0.8) 0.6px,
+      transparent 0.6px
+    );
+
   background-size: 5px 5px;
 }
 
-/* Physical card shadow */
+/* =========================
+   PAPER / CARTOON CARDS
+========================= */
+
+.cartoon-card {
+  border: 2px solid var(--ink);
+
+  border-radius: 22px 18px 24px 20px;
+
+  background: rgba(255, 255, 255, 0.88);
+
+  box-shadow:
+    7px 7px 0 var(--ink);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.cartoon-card:hover {
+  transform: translate(-3px, -4px);
+
+  box-shadow:
+    11px 11px 0 var(--ink);
+}
+
+.cartoon-card-soft {
+  border: 2px solid rgba(29, 27, 53, 0.18);
+
+  border-radius: 20px 16px 22px 18px;
+
+  background: rgba(255, 255, 255, 0.72);
+
+  box-shadow:
+    5px 5px 0 rgba(29, 27, 53, 0.13);
+}
+
+.sticker-card {
+  border: 2px solid var(--ink);
+
+  border-radius: 18px 24px 20px 22px;
+
+  background: var(--white);
+
+  box-shadow:
+    6px 6px 0 var(--ink);
+}
+
+/* =========================
+   HAND DRAWN BORDER
+========================= */
+
+.hand-border {
+  border: 2px solid var(--ink);
+
+  border-radius:
+    18px 14px 20px 16px /
+    14px 20px 16px 18px;
+}
+
+/* =========================
+   SHADOW SYSTEM
+========================= */
 
 .paper-shadow {
-  box-shadow: 5px 5px 0 #19171c;
+  box-shadow:
+    8px 8px 0 var(--ink);
 }
 
 .paper-shadow-soft {
-  box-shadow: 4px 4px 0 rgba(25, 23, 28, 0.15);
+  box-shadow:
+    5px 5px 0 rgba(29, 27, 53, 0.15);
 }
 
-/* Hand-drawn border */
-
-.hand-border {
-  border: 2px solid #19171c;
-  border-radius: 4px 7px 5px 8px;
+.paper-shadow-purple {
+  box-shadow:
+    7px 7px 0 var(--purple);
 }
 
-/* Scrollbar */
+.paper-shadow-yellow {
+  box-shadow:
+    7px 7px 0 var(--yellow);
+}
+
+/* =========================
+   SECTION BACKGROUNDS
+========================= */
+
+.section-space {
+  position: relative;
+}
+
+.section-space::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(124, 92, 231, 0.04),
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 85% 70%,
+      rgba(255, 142, 142, 0.05),
+      transparent 22%
+    );
+}
+
+/* =========================
+   BUTTON BASE
+========================= */
+
+.jem-button {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid var(--ink);
+
+  border-radius: 999px;
+
+  padding: 0.9rem 1.4rem;
+
+  font-family: "DM Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.jem-button:hover {
+  transform: translate(-2px, -3px);
+}
+
+.jem-button:active {
+  transform: translate(2px, 2px);
+}
+
+/* =========================
+   CUSTOM SCROLLBAR
+========================= */
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #e9e0d2;
+  background: var(--cream-dark);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #19171c;
-  border-radius: 20px;
+  border: 2px solid var(--cream-dark);
+  border-radius: 999px;
+
+  background: var(--purple);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6f5aa9;
+  background: var(--ink);
+}
+
+/* =========================
+   ACCESSIBILITY
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.hero-stars {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    radial-gradient(circle at 10% 15%, #ffffff 0 1px, transparent 1.5px),
+    radial-gradient(circle at 20% 45%, #ffd95e 0 1.5px, transparent 2px),
+    radial-gradient(circle at 32% 25%, #ffffff 0 1px, transparent 1.5px),
+    radial-gradient(circle at 42% 10%, #b99cff 0 1px, transparent 1.5px),
+    radial-gradient(circle at 55% 35%, #ffd95e 0 1.5px, transparent 2px),
+    radial-gradient(circle at 65% 15%, #ffffff 0 1px, transparent 1.5px),
+    radial-gradient(circle at 75% 42%, #d6c2ff 0 1px, transparent 1.5px),
+    radial-gradient(circle at 88% 18%, #ffd95e 0 1.5px, transparent 2px),
+    radial-gradient(circle at 92% 65%, #ffffff 0 1px, transparent 1.5px),
+    radial-gradient(circle at 12% 75%, #c4a6ff 0 1px, transparent 1.5px);
+
+  background-size:
+    210px 180px,
+    280px 230px,
+    320px 270px,
+    260px 240px,
+    300px 250px,
+    230px 200px,
+    340px 290px,
+    270px 230px,
+    310px 260px,
+    240px 220px;
+
+  animation: star-drift 20s linear infinite;
+}
+
+@keyframes star-drift {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-40px);
+  }
 }

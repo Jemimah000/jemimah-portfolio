@@ -1,26 +1,50 @@
-import type { ReactNode } from "react";
+import type {
+  ButtonHTMLAttributes,
+  ReactNode,
+} from "react";
 
-type ButtonProps = {
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
-  variant?: "dark" | "yellow" | "outline";
-  onClick?: () => void;
+
+  variant?:
+    | "yellow"
+    | "purple"
+    | "pink"
+    | "mint"
+    | "outline"
+    | "dark";
+};
+
+const variants = {
+  yellow:
+    "bg-[#ffd166] text-[#1d1b35] shadow-[4px_4px_0_#1d1b35] hover:shadow-[7px_7px_0_#1d1b35]",
+
+  purple:
+    "bg-[#7c5ce7] text-white shadow-[4px_4px_0_#1d1b35] hover:shadow-[7px_7px_0_#1d1b35]",
+
+  pink:
+    "bg-[#ff8e8e] text-[#1d1b35] shadow-[4px_4px_0_#1d1b35] hover:shadow-[7px_7px_0_#1d1b35]",
+
+  mint:
+    "bg-[#6ed3cf] text-[#1d1b35] shadow-[4px_4px_0_#1d1b35] hover:shadow-[7px_7px_0_#1d1b35]",
+
+  outline:
+    "bg-white text-[#1d1b35] shadow-[4px_4px_0_#1d1b35] hover:shadow-[7px_7px_0_#1d1b35]",
+
+  dark:
+    "bg-[#1d1b35] text-white shadow-[4px_4px_0_#7c5ce7] hover:shadow-[7px_7px_0_#7c5ce7]",
 };
 
 export default function Button({
   children,
-  variant = "dark",
-  onClick,
+  variant = "yellow",
+  className = "",
+  ...props
 }: ButtonProps) {
-  const styles = {
-    dark: "bg-[#19171c] text-[#f8f2e8]",
-    yellow: "bg-[#f4d35e] text-[#19171c]",
-    outline: "bg-transparent text-[#19171c]",
-  };
-
   return (
     <button
-      onClick={onClick}
-      className={`paper-shadow-soft hand-border px-5 py-3 font-mono text-sm font-medium transition-all duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_0_#19171c] ${styles[variant]}`}
+      className={`jem-button ${variants[variant]} ${className}`}
+      {...props}
     >
       {children}
     </button>
