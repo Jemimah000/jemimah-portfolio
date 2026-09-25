@@ -1,4 +1,3 @@
-import Sidebar from "./components/layout/Sidebar";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 
@@ -23,7 +22,6 @@ function App() {
   return (
     <div className="paper-texture min-h-screen overflow-x-hidden">
       {/* Scroll progress */}
-
       <div className="fixed left-0 top-0 z-[100] h-[3px] w-full bg-transparent">
         <div
           className="h-full bg-gradient-to-r from-[#8c70d0] via-[#f4d35e] to-[#ef806d] transition-[width] duration-100"
@@ -35,13 +33,13 @@ function App() {
 
       <CursorGlow />
 
-      <Sidebar />
-
+      {/* Mobile navigation only */}
       <Navbar />
 
       <FloatingDoodles />
 
-      <main className="lg:ml-[230px]">
+      {/* Full-width portfolio */}
+      <main>
         <PageTransition>
           <Hero />
 

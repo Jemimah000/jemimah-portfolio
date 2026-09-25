@@ -33,22 +33,23 @@ export const projects: Project[] = [
 
     title: "Aura Gaze",
 
-    subtitle: "Emotional AI Best Friend",
+    subtitle: "AI Best Friend Platform",
 
     description:
-      "An AI-powered companion designed around meaningful conversations and emotional connection.",
+      "A full-stack AI companion platform built around meaningful conversations and emotional connection.",
 
     longDescription:
-      "Aura Gaze is a personal AI companion experience focused on creating meaningful and natural conversations. The project explores emotional interaction, personality-driven responses and a warm user experience that feels more personal than a traditional chatbot.",
+      "Aura Gaze is a full-stack AI companion platform that focuses on creating meaningful and natural conversations. I built the application using the MERN stack, with a responsive React frontend and a Node.js and Express backend connected to MongoDB. The project also includes secure authentication and an interactive user experience designed around personal AI conversations.",
 
-    year: "2025 — Present",
+    year: "2026 — Ongoing",
 
     status: "Building",
 
     technologies: [
       "React",
-      "TypeScript",
+      "JavaScript",
       "Node.js",
+      "Express.js",
       "MongoDB",
     ],
 
@@ -57,11 +58,14 @@ export const projects: Project[] = [
     emoji: "🤖",
 
     highlights: [
-      "Personal AI companion experience",
-      "Interactive onboarding flow",
-      "Custom personality-driven conversations",
-      "Emotion-focused UI and UX",
+      "Full-stack AI companion platform",
+      "Responsive React user interface",
+      "JWT authentication",
+      "Node.js and Express backend",
+      "MongoDB database integration",
     ],
+
+    liveUrl: "https://auragaze1528.netlify.app/",
   },
 
   {
@@ -69,23 +73,22 @@ export const projects: Project[] = [
 
     title: "HiddenInk",
 
-    subtitle: "Story Publishing Platform",
+    subtitle: "Story Publishing & Reading Platform",
 
     description:
-      "A creative platform where writers can publish stories and readers can discover new imaginary worlds.",
+      "A responsive frontend platform for publishing stories and discovering new imaginary worlds.",
 
     longDescription:
-      "HiddenInk is a storytelling platform designed to make writing and discovering stories feel immersive and enjoyable. It focuses on clean reading experiences, creative publishing tools and a space where stories can find their audience.",
+      "HiddenInk is a frontend story publishing and reading platform designed to make discovering and reading stories simple and enjoyable. I built the responsive interface using React and TypeScript and used TanStack Query for handling and optimizing API data fetching. The project focuses on reusable UI components and a clean reading experience.",
 
-    year: "2026",
+    year: "2025",
 
     status: "Built",
 
     technologies: [
       "React",
       "TypeScript",
-      "Tailwind CSS",
-      "MongoDB",
+      "TanStack Query",
     ],
 
     accent: "yellow",
@@ -93,11 +96,14 @@ export const projects: Project[] = [
     emoji: "📖",
 
     highlights: [
-      "Story publishing experience",
-      "Reader-friendly interface",
-      "Creative content discovery",
-      "Responsive user experience",
+      "Responsive story publishing interface",
+      "React and TypeScript frontend",
+      "TanStack Query for data fetching",
+      "Reusable UI components",
+      "Reader-friendly experience",
     ],
+
+    liveUrl: "https://hiddenink.netlify.app/",
   },
 
   {
@@ -105,23 +111,21 @@ export const projects: Project[] = [
 
     title: "Dore Dazzle",
 
-    subtitle: "Cartoon Gaming Platform",
+    subtitle: "Cartoon-Themed Browser Gaming Platform",
 
     description:
-      "A playful browser gaming experience built around colorful visuals and interactive gameplay.",
+      "A playful browser gaming experience built with colorful cartoon visuals and interactive gameplay.",
 
     longDescription:
-      "Dore Dazzle is a playful gaming project that combines colorful cartoon visuals with interactive browser-based gameplay. The goal is to create a fun digital experience where design and interaction feel equally important.",
+      "Dore Dazzle is a cartoon-themed browser gaming project built to create a fun and interactive web experience. I developed the platform using React and JavaScript, focusing on responsive layouts, modular components and a colorful visual style inspired by cartoon gaming experiences.",
 
-    year: "2026 — Present",
+    year: "2026 — Ongoing",
 
     status: "Building",
 
     technologies: [
       "React",
       "JavaScript",
-      "CSS",
-      "Node.js",
     ],
 
     accent: "pink",
@@ -129,82 +133,13 @@ export const projects: Project[] = [
     emoji: "🎮",
 
     highlights: [
-      "Interactive browser gameplay",
+      "Browser-based gaming experience",
+      "React and JavaScript",
+      "Responsive layouts",
+      "Modular components",
       "Cartoon-inspired visual design",
-      "Responsive interface",
-      "Playful animations and interactions",
-    ],
-  },
-
-  {
-    id: "portfolio",
-
-    title: "Jem's Universe",
-
-    subtitle: "Interactive Developer Portfolio",
-
-    description:
-      "A cartoon-inspired portfolio that combines storytelling, motion and interactive experiences.",
-
-    longDescription:
-      "Jem's Universe is my personal corner of the internet. Instead of a traditional portfolio, it is designed like a playful digital world where visitors can explore my work, skills, creativity and eventually talk with my AI assistant, Luna.",
-
-    year: "2026",
-
-    status: "Building",
-
-    technologies: [
-      "React",
-      "TypeScript",
-      "Framer Motion",
-      "Three.js",
     ],
 
-    accent: "mint",
-
-    emoji: "🌌",
-
-    highlights: [
-      "Interactive scrolling experience",
-      "Cartoon-inspired UI system",
-      "Motion-based interactions",
-      "Future AI assistant integration",
-    ],
-  },
-
-  {
-    id: "creative-lab",
-
-    title: "Creative Lab",
-
-    subtitle: "Experiments & Tiny Ideas",
-
-    description:
-      "A collection of small experiments where I explore animation, interaction and creative coding.",
-
-    longDescription:
-      "Creative Lab is a space for experiments, unfinished ideas and small interactive projects. It allows me to explore new technologies and turn random creative thoughts into working digital experiences.",
-
-    year: "2026",
-
-    status: "Concept",
-
-    technologies: [
-      "React",
-      "CSS",
-      "JavaScript",
-      "Framer Motion",
-    ],
-
-    accent: "blue",
-
-    emoji: "✨",
-
-    highlights: [
-      "Creative coding experiments",
-      "Animation explorations",
-      "Interactive UI concepts",
-      "Small experimental projects",
-    ],
+    liveUrl: "https://dore-dazzle.vercel.app/",
   },
 ];

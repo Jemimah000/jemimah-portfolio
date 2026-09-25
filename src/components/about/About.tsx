@@ -1,18 +1,35 @@
-import { Camera, Gamepad2, Heart, Pencil, Sparkles } from "lucide-react";
+import { Camera, Gamepad2, Pencil } from "lucide-react";
 import { about } from "../../data/about";
 import SectionLabel from "../common/SectionLabel";
-import Doodle from "../common/Doodle";
 
-const icons = [Pencil, Camera, Gamepad2, Sparkles, Heart, Pencil];
+const creativeInterests = [
+  {
+    name: "Sketching",
+    icon: Pencil,
+  },
+  {
+    name: "Photography",
+    icon: Camera,
+    link: "https://www.instagram.com/dreamye_frames/",
+  },
+  {
+    name: "Game Design",
+    icon: Gamepad2,
+  },
+];
 
 export default function About() {
   return (
-    <section id="about" className="px-6 py-28 lg:px-12">
+    <section
+      id="about"
+      className="relative overflow-hidden px-6 py-28 lg:px-12"
+    >
       <SectionLabel number="01">Who I Am</SectionLabel>
 
       <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        {/* Left side */}
         <div className="relative">
-          <div className="absolute -left-4 -top-5 font-hand text-3xl text-[#8c70d0]">
+          <div className="mb-5 font-hand text-3xl text-[#8c70d0]">
             a little about me...
           </div>
 
@@ -30,6 +47,7 @@ export default function About() {
           </div>
         </div>
 
+        {/* Right side */}
         <div>
           <h2 className="font-display text-5xl leading-tight md:text-6xl">
             A developer with a
@@ -40,34 +58,52 @@ export default function About() {
             {about.description}
           </p>
 
+          {/* Traits */}
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            {about.traits.map((trait, index) => (
+            {about.traits.map((trait) => (
               <div
                 key={trait}
                 className="flex items-center gap-3 border-b border-[#19171c]/10 py-3"
               >
-                <Doodle type={index % 2 ? "spark" : "star"} />
+                <span className="h-2 w-2 shrink-0 rounded-full bg-[#8c70d0]" />
+
                 <span className="font-mono text-xs">{trait}</span>
               </div>
             ))}
           </div>
 
+          {/* Beyond the code */}
           <div className="mt-10">
             <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.25em] text-[#19171c]/40">
               Beyond the code
             </p>
 
             <div className="flex flex-wrap gap-2">
-              {about.creativeInterests.map((interest, index) => {
-                const Icon = icons[index % icons.length];
+              {creativeInterests.map((interest) => {
+                const Icon = interest.icon;
+
+                if (interest.link) {
+                  return (
+                    <a
+                      key={interest.name}
+                      href={interest.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 rounded-full border border-[#19171c]/15 bg-[#faf5eb] px-4 py-2 text-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8c70d0]/40 hover:bg-white hover:shadow-sm"
+                    >
+                      <Icon size={14} />
+                      {interest.name}
+                    </a>
+                  );
+                }
 
                 return (
                   <span
-                    key={interest}
+                    key={interest.name}
                     className="flex items-center gap-2 rounded-full border border-[#19171c]/15 bg-[#faf5eb] px-4 py-2 text-sm"
                   >
                     <Icon size={14} />
-                    {interest}
+                    {interest.name}
                   </span>
                 );
               })}

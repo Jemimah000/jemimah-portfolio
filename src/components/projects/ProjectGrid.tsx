@@ -5,7 +5,26 @@ import ProjectModal from "./ProjectModal";
 import type { Project } from "../../data/projects";
 
 export default function ProjectGrid() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProject, setSelectedProject] =
+    useState<Project | null>(null);
+
+  const handleProjectClick = (project: Project) => {
+    // If the project has a live website,
+    // open it in a completely new browser tab.
+    if (project.liveUrl) {
+      window.open(
+        project.liveUrl,
+        "_blank",
+        "noopener,noreferrer",
+      );
+
+      return;
+    }
+
+    // For projects without a live URL,
+    // keep the existing modal behavior.
+    setSelectedProject(project);
+  };
 
   return (
     <>
@@ -15,7 +34,7 @@ export default function ProjectGrid() {
             key={project.title}
             project={project}
             index={index}
-            onClick={() => setSelectedProject(project)}
+            onClick={() => handleProjectClick(project)}
           />
         ))}
       </div>

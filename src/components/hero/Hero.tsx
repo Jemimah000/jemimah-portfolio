@@ -276,18 +276,6 @@ export default function Hero() {
       </div>
 
       {/* =========================
-          CLOUDS
-      ========================== */}
-
-      <div className="absolute bottom-24 left-[38%] hidden lg:block">
-        <div className="h-20 w-44 rounded-full bg-[#f6f0ed] opacity-90 shadow-[0_8px_30px_rgba(255,255,255,0.1)]" />
-      </div>
-
-      <div className="absolute bottom-16 right-[4%] hidden lg:block">
-        <div className="h-24 w-52 rounded-full bg-[#f6f0ed] opacity-90" />
-      </div>
-
-      {/* =========================
           CURVED BOTTOM TRANSITION
       ========================== */}
 
