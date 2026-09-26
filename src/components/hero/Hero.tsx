@@ -134,7 +134,9 @@ export default function Hero() {
             </span>
           </p>
 
-          {/* Buttons */}
+          {/* =========================
+              MAIN BUTTONS
+          ========================== */}
 
           <div className="mt-9 flex flex-wrap gap-4">
             {/* Explore My Work */}
@@ -167,9 +169,61 @@ export default function Hero() {
             </a>
           </div>
 
+          {/* =========================
+              SOCIAL LINKS
+          ========================== */}
+
+          <div className="mt-7 flex items-center gap-3">
+            <span className="mr-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white/35">
+              Find me
+            </span>
+
+            {/* GitHub */}
+
+            <a
+              href="https://github.com/Jemimah000"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Jemimah's GitHub"
+              className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 font-mono text-xs font-bold text-white/70 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-white/40 hover:bg-white/10 hover:text-white"
+            >
+              <span className="transition-transform duration-300 group-hover:scale-110">
+                GH
+              </span>
+            </a>
+
+            {/* LeetCode */}
+
+            <a
+              href="https://leetcode.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Jemimah's LeetCode"
+              className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 font-mono text-xs font-bold text-white/70 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-white/40 hover:bg-white/10 hover:text-white"
+            >
+              <span className="transition-transform duration-300 group-hover:scale-110">
+                LC
+              </span>
+            </a>
+
+            {/* LinkedIn */}
+
+            <a
+              href="https://linkedin.com/in/jemimah-mary-manuel-490488361/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Jemimah's LinkedIn"
+              className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 font-mono text-sm font-bold text-white/70 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-white/40 hover:bg-white/10 hover:text-white"
+            >
+              <span className="transition-transform duration-300 group-hover:scale-110">
+                in
+              </span>
+            </a>
+          </div>
+
           {/* Scroll */}
 
-          <div className="mt-12 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
+          <div className="mt-10 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
             <ArrowDown size={15} />
             Scroll to explore
           </div>

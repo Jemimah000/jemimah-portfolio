@@ -47,7 +47,7 @@ export default function LunaAssistant() {
     setHasError(false);
 
     const history = messages
-      .filter((item, index) => index !== 0)
+      .filter((_, index) => index !== 0)
       .slice(-10)
       .map((item) => ({
         role: item.role === "assistant" ? "model" : "user",
