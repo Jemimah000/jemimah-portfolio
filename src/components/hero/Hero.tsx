@@ -6,12 +6,16 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import FloatingDoodles from "../effects/FloatingDoodles";
+
 export default function Hero() {
   return (
     <section
       id="home"
       className="relative min-h-screen overflow-hidden bg-[#0d1028] px-6 pb-40 pt-10 text-[#f9f3e8] lg:px-12 lg:pt-14"
     >
+      <FloatingDoodles />
+
       {/* =========================
           STAR BACKGROUND
       ========================== */}
@@ -133,6 +137,8 @@ export default function Hero() {
           {/* Buttons */}
 
           <div className="mt-9 flex flex-wrap gap-4">
+            {/* Explore My Work */}
+
             <a
               href="#projects"
               className="group inline-flex items-center gap-3 rounded-xl bg-[#8058d6] px-6 py-4 text-sm font-semibold text-white shadow-[0_8px_25px_rgba(112,76,200,0.45)] transition hover:-translate-y-1 hover:bg-[#916cff]"
@@ -145,8 +151,11 @@ export default function Hero() {
               />
             </a>
 
+            {/* Download CV */}
+
             <a
               href="/resume.pdf"
+              download="Jemimah_Mary_Manuel_CV.pdf"
               className="group inline-flex items-center gap-3 rounded-xl border border-white/50 bg-white/5 px-6 py-4 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-1 hover:bg-white/10"
             >
               Download CV
@@ -202,11 +211,11 @@ export default function Hero() {
               ease: "easeInOut",
             }}
           >
-            {/* inner glow */}
+            {/* Inner glow */}
 
             <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-[#1d1740]/30" />
 
-            {/* crown */}
+            {/* Crown */}
 
             <div className="absolute left-1/2 top-5 z-20 -translate-x-1/2 text-5xl text-white">
               ♕

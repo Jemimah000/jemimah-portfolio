@@ -6,11 +6,10 @@ import About from "./components/about/About";
 import TechStack from "./components/skills/TechStack";
 import CreativeCorner from "./components/creative/CreativeCorner";
 import ProjectGrid from "./components/projects/ProjectGrid";
-import AskJemi from "./components/ai/AskJemi";
+import LunaAssistant from "./components/ai/LunaAssistant";
 
 import SectionLabel from "./components/common/SectionLabel";
 
-import FloatingDoodles from "./components/effects/FloatingDoodles";
 import PageTransition from "./components/effects/PageTransition";
 import CursorGlow from "./components/effects/CursorGlow";
 
@@ -35,8 +34,6 @@ function App() {
 
       {/* Mobile navigation only */}
       <Navbar />
-
-      <FloatingDoodles />
 
       {/* Full-width portfolio */}
       <main>
@@ -75,7 +72,7 @@ function App() {
 
           <CreativeCorner />
 
-          <AskJemi />
+          <LunaAssistant />
 
           <Footer />
         </PageTransition>
