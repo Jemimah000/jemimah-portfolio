@@ -119,7 +119,7 @@ export default function LunaAssistant() {
       id="ask-luna"
       className="px-6 py-28 lg:px-12"
     >
-      <SectionLabel number="04">
+      <SectionLabel number="03">
         Meet LUNA
       </SectionLabel>
 

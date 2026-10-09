@@ -24,10 +24,6 @@ const navigation = [
     label: "Skills",
     href: "#skills",
   },
-  {
-    label: "Creative",
-    href: "#creative",
-  },
 ];
 
 export default function Navbar() {

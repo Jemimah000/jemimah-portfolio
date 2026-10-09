@@ -1,10 +1,8 @@
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
-
 import Hero from "./components/hero/Hero";
 import About from "./components/about/About";
 import TechStack from "./components/skills/TechStack";
-import CreativeCorner from "./components/creative/CreativeCorner";
 import ProjectGrid from "./components/projects/ProjectGrid";
 import LunaAssistant from "./components/ai/LunaAssistant";
 
@@ -69,8 +67,6 @@ function App() {
           <About />
 
           <TechStack />
-
-          <CreativeCorner />
 
           <LunaAssistant />
 

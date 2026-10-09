@@ -6,7 +6,6 @@ import {
   Heart,
   Home,
   Mail,
-  Palette,
   Sparkles,
   User,
   Wrench,
@@ -32,11 +31,6 @@ const navigation = [
     label: "Skills",
     href: "#skills",
     icon: Wrench,
-  },
-  {
-    label: "Creative Corner",
-    href: "#creative",
-    icon: Palette,
   },
   {
     label: "Resume",
