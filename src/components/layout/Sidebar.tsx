@@ -122,7 +122,7 @@ export default function Sidebar() {
       {/* LUNA Button */}
 
       <a
-        href="#ask-jemi"
+        href="#ask-luna"
         className="relative mt-5 flex items-center gap-3 overflow-hidden rounded-2xl border-2 border-[#7c5ce7] bg-[#7c5ce7]/20 px-3 py-3 text-sm text-white transition hover:-translate-y-1 hover:bg-[#7c5ce7]/35"
       >
         <div className="absolute -right-4 -top-4 h-12 w-12 rounded-full bg-[#ffd166]/20 blur-xl" />

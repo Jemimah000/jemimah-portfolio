@@ -13,16 +13,20 @@ const navigation = [
     href: "#home",
   },
   {
-    label: "About",
-    href: "#about",
+    label: "My Toolbox",
+    href: "#skills",
   },
   {
-    label: "Projects",
+    label: "Things I've Built",
     href: "#projects",
   },
   {
-    label: "Skills",
-    href: "#skills",
+    label: "Who I Am",
+    href: "#about",
+  },
+  {
+    label: "Meet LUNA",
+    href: "#ask-luna",
   },
 ];
 
@@ -53,7 +57,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-2">
             <a
-              href="#ask-jemi"
+              href="#ask-luna"
               className="flex items-center gap-2 rounded-full border-2 border-[#1d1b35] bg-[#ffd166] px-3 py-2 font-mono text-[9px] shadow-[3px_3px_0_#1d1b35]"
             >
               <Bot size={14} />

@@ -484,6 +484,100 @@ a {
 }
 
 /* =========================
+   LUNA BUTTON
+========================= */
+
+
+.luna-float-button {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  animation: luna-float 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 12px rgba(140, 112, 208, 0.18));
+}
+
+.luna-float-button:focus-visible {
+  outline: 3px solid #ffd166;
+  outline-offset: 5px;
+  border-radius: 50%;
+}
+
+.luna-orb-image {
+  display: block;
+  animation: luna-glow 3s ease-in-out infinite;
+}
+
+@keyframes luna-float {
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(2deg);
+  }
+}
+
+@keyframes luna-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(180, 154, 255, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 0 9px rgba(180, 154, 255, 0.65));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .luna-float-button,
+  .luna-orb-image {
+    animation: none;
+  }
+}
+
+
+
+.luna-panel-image {
+  animation: luna-panel-float 4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.luna-panel-art::after {
+  content: "";
+  position: absolute;
+  inset: 10%;
+  border: 1px dashed rgba(180, 154, 255, 0.45);
+  border-radius: 50%;
+  animation: luna-panel-orbit 18s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes luna-panel-float {
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(2deg);
+  }
+}
+
+@keyframes luna-panel-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .luna-panel-image,
+  .luna-panel-art::after {
+    animation: none;
+  }
+}
+
+
+
+/* =========================
    HERO STARS
 ========================= */
 

@@ -4,7 +4,7 @@ import SectionLabel from "../common/SectionLabel";
 export default function TechStack() {
   return (
     <section id="skills" className="px-6 py-28 lg:px-12">
-      <SectionLabel number="02">My Toolbox</SectionLabel>
+      <SectionLabel number="00">My Toolbox</SectionLabel>
 
       <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div>

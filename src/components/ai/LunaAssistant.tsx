@@ -1,4 +1,5 @@
-import { Bot, Sparkles } from "lucide-react";
+
+import { Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import SectionLabel from "../common/SectionLabel";
 import ChatInput from "./ChatInput";
@@ -55,10 +56,7 @@ export default function LunaAssistant() {
 
     setMessages((current) => [
       ...current,
-      {
-        role: "user",
-        content: cleanMessage,
-      },
+      { role: "user", content: cleanMessage },
     ]);
 
     try {
@@ -86,13 +84,11 @@ export default function LunaAssistant() {
         {
           role: "assistant",
           content:
-            data.reply ||
-            "Sorry, I couldn't generate a response.",
+            data.reply || "Sorry, I couldn't generate a response.",
         },
       ]);
     } catch (error) {
       console.error("LUNA request error:", error);
-
       setHasError(true);
 
       const errorMessage =
@@ -102,10 +98,7 @@ export default function LunaAssistant() {
 
       setMessages((current) => [
         ...current,
-        {
-          role: "assistant",
-          content: errorMessage,
-        },
+        { role: "assistant", content: errorMessage },
       ]);
     } finally {
       loadingRef.current = false;
@@ -118,25 +111,28 @@ export default function LunaAssistant() {
       id="ask-luna"
       className="px-5 pb-20 pt-10 sm:px-6 sm:pt-12 lg:px-12 lg:pt-14"
     >
-      <SectionLabel number="03">
-        Meet LUNA
-      </SectionLabel>
+      <SectionLabel number="03">Meet LUNA</SectionLabel>
 
-      {/* Larger LUNA workspace */}
       <div className="grid min-h-[620px] overflow-hidden rounded-2xl border-2 border-[#19171c] bg-[#19171c] text-[#f8f2e8] shadow-[0_18px_60px_rgba(25,23,28,0.12)] sm:min-h-[680px] lg:min-h-[700px] lg:grid-cols-[0.8fr_1.2fr]">
 
         {/* LEFT PANEL */}
         <div className="relative flex flex-col justify-center overflow-hidden p-8 sm:p-10 md:p-14 lg:p-12 xl:p-16">
           <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#8c70d0]/30 blur-3xl" />
-
           <div className="absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-[#8c70d0]/10 blur-3xl" />
 
-          <div className="relative">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#8c70d0] shadow-lg shadow-[#8c70d0]/20">
-              <Bot size={30} />
+          <div className="relative z-10">
+            {/* LUNA illustration */}
+            <div className="luna-panel-art relative mb-5 flex h-44 w-44 items-center justify-center sm:h-52 sm:w-52">
+              <div className="absolute inset-3 rounded-full bg-[#8c70d0]/20 blur-2xl" />
+
+              <img
+                src="/images/luna-orb.png"
+                alt="LUNA, Jemimah's friendly AI portfolio assistant"
+                className="luna-panel-image relative z-10 h-full w-full object-contain drop-shadow-[0_8px_16px_rgba(140,112,208,0.22)]"
+              />
             </div>
 
-            <h2 className="mt-8 font-display text-4xl sm:text-5xl lg:text-5xl xl:text-6xl">
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-5xl xl:text-6xl">
               Meet LUNA.
             </h2>
 
@@ -154,18 +150,21 @@ export default function LunaAssistant() {
           </div>
         </div>
 
-        {/* RIGHT PANEL */}
+        {/* RIGHT PANEL — CHAT */}
         <div className="flex min-h-[580px] flex-col bg-[#eee5d7] p-4 text-[#19171c] sm:p-6 md:p-8 lg:min-h-0 lg:p-8 xl:p-10">
 
-          {/* Chat header */}
           <div className="mb-5 flex shrink-0 items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#8c70d0]">
-              <Bot size={23} />
+            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-[#8c70d0]/15">
+              <img
+                src="/images/luna-orb.png"
+                alt=""
+                aria-hidden="true"
+                className="h-full w-full object-contain"
+              />
             </div>
 
             <div>
               <p className="text-lg font-medium">LUNA</p>
-
               <p className="font-mono text-[10px] text-[#19171c]/45">
                 JEMIMAH'S PORTFOLIO ASSISTANT
               </p>
@@ -189,7 +188,6 @@ export default function LunaAssistant() {
             />
           </div>
 
-          {/* Larger conversation area */}
           <div
             aria-live="polite"
             className="flex min-h-[380px] flex-1 flex-col gap-4 overflow-y-auto overscroll-contain rounded-2xl border border-[#19171c]/5 bg-[#f4eee3] p-4 sm:min-h-[420px] sm:p-5 lg:min-h-[460px] lg:p-6"
@@ -212,7 +210,6 @@ export default function LunaAssistant() {
             <div ref={bottomRef} />
           </div>
 
-          {/* Input stays below the conversation */}
           <div className="mt-4 shrink-0">
             <ChatInput
               onSend={handleSend}

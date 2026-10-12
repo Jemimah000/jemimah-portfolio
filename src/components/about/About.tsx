@@ -30,7 +30,7 @@ export default function About() {
       <div className="pointer-events-none absolute -left-24 bottom-10 h-72 w-72 rounded-full bg-[#ffd166]/10 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl">
-        <SectionLabel number="01">Who I Am</SectionLabel>
+        <SectionLabel number="02">Who I Am</SectionLabel>
 
         <div className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr]">
           {/* =========================

@@ -1,5 +1,5 @@
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Bot, Sparkles } from "lucide-react";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -18,8 +18,8 @@ import CustomScrollBar from "./components/effects/CustomScrollBar";
 import useScrollProgress from "./hooks/useScrollProgress";
 
 function App() {
-  // Tracks the percentage of the page scrolled.
   const scrollProgress = useScrollProgress();
+  const [isLunaVisible, setIsLunaVisible] = useState(false);
 
   // Start at the top when the portfolio loads.
   useEffect(() => {
@@ -34,12 +34,41 @@ function App() {
     });
   }, []);
 
+  // Hide the floating button while the LUNA section is visible.
+  useEffect(() => {
+    const lunaSection = document.getElementById("ask-luna");
+
+    if (!lunaSection) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsLunaVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.15,
+      }
+    );
+
+    observer.observe(lunaSection);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const goToLuna = () => {
+    document.getElementById("ask-luna")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   return (
     <div className="paper-texture min-h-screen overflow-x-hidden">
-      {/* Growing colorful scroll progress bar */}
+      {/* Scroll progress bar */}
       <CustomScrollBar progress={scrollProgress} />
 
-      {/* Cursor glow effect */}
+      {/* Cursor glow */}
       <CursorGlow />
 
       {/* Navigation */}
@@ -50,12 +79,15 @@ function App() {
           {/* Hero / Profile */}
           <Hero />
 
-          {/* Projects */}
+          {/* 00 — My Toolbox */}
+          <TechStack />
+
+          {/* 01 — Things I've Built */}
           <section
             id="projects"
             className="relative bg-[#f4eee3] px-6 py-28 lg:px-12"
           >
-            <SectionLabel number="00">
+            <SectionLabel number="01">
               Things I've Built
             </SectionLabel>
 
@@ -78,19 +110,41 @@ function App() {
             <ProjectGrid />
           </section>
 
-          {/* About */}
+          {/* 02 — Who I Am */}
           <About />
 
-          {/* Skills */}
-          <TechStack />
-
-          {/* LUNA AI */}
+          {/* 03 — Meet LUNA */}
           <LunaAssistant />
 
-          {/* Footer */}
+          {/* Final yellow footer */}
           <Footer />
         </PageTransition>
       </main>
+
+      {/* Floating LUNA button */}
+      
+          
+      {!isLunaVisible && (
+        <button
+          type="button"
+          onClick={goToLuna}
+          aria-label="Meet LUNA, your portfolio assistant"
+          title="Meet LUNA"
+          className="luna-float-button group fixed bottom-5 right-4 z-[60] h-24 w-24 sm:bottom-7 sm:right-7 sm:h-28 sm:w-28"
+        >
+          <img
+            src="/images/luna-orb.png"
+            alt=""
+            aria-hidden="true"
+            className="luna-orb-image h-full w-full object-contain transition-transform duration-300 group-hover:scale-110 group-active:scale-95"
+          />
+
+          <span className="pointer-events-none absolute right-full top-1/2 mr-2 -translate-y-1/2 whitespace-nowrap rounded-lg border-2 border-[#19171c] bg-[#fff7e8] px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-wider text-[#19171c] opacity-0 shadow-[3px_3px_0_#19171c] transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 translate-x-2">
+            Hey! Meet LUNA ✦
+          </span>
+        </button>
+      )}
+
     </div>
   );
 }
