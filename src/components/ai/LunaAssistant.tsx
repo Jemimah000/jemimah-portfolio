@@ -1,5 +1,12 @@
+
 import { Sparkles } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
 import SectionLabel from "../common/SectionLabel";
 import ChatInput from "./ChatInput";
 import ChatMessage from "./ChatMessage";
@@ -19,7 +26,11 @@ const API_URL = (
   (import.meta.env.DEV ? "" : "https://jemimah-portfolio.onrender.com")
 ).replace(/\/+$/, "");
 
-const LUNA_ENDPOINT = API_URL ? `${API_URL}/api/luna` : "/api/luna";
+const LUNA_ENDPOINT = API_URL
+  ? `${API_URL}/api/luna`
+  : "/api/luna";
+
+const ORB_SIZE = 28;
 
 const initialMessages: Message[] = [
   {
@@ -37,16 +48,131 @@ export default function LunaAssistant() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [orbTop, setOrbTop] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const chatRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const loadingRef = useRef(false);
+  const draggingRef = useRef(false);
 
+  // Keep the orb in sync with the conversation's scroll position.
+  const updateOrbPosition = useCallback(() => {
+    const chat = chatRef.current;
+    const track = trackRef.current;
+
+    if (!chat || !track) return;
+
+    const maxScroll = chat.scrollHeight - chat.clientHeight;
+    const maxTop = Math.max(0, track.clientHeight - ORB_SIZE);
+
+    if (maxScroll <= 0 || maxTop <= 0) {
+      setOrbTop(0);
+      return;
+    }
+
+    setOrbTop((chat.scrollTop / maxScroll) * maxTop);
+  }, []);
+
+  // Scroll only the message area when a new message arrives.
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({
+    const chat = chatRef.current;
+    if (!chat) return;
+
+    chat.scrollTo({
+      top: chat.scrollHeight,
       behavior: "smooth",
-      block: "nearest",
     });
-  }, [messages, isLoading]);
+
+    const frame = requestAnimationFrame(updateOrbPosition);
+
+    return () => cancelAnimationFrame(frame);
+  }, [messages, isLoading, updateOrbPosition]);
+
+  // Keep the orb updated during scrolling and resizing.
+  useEffect(() => {
+    const chat = chatRef.current;
+    const track = trackRef.current;
+
+    if (!chat || !track) return;
+
+    chat.addEventListener("scroll", updateOrbPosition, {
+      passive: true,
+    });
+
+    const observer = new ResizeObserver(updateOrbPosition);
+    observer.observe(chat);
+    observer.observe(track);
+
+    updateOrbPosition();
+
+    return () => {
+      chat.removeEventListener("scroll", updateOrbPosition);
+      observer.disconnect();
+    };
+  }, [updateOrbPosition]);
+
+  // Drag or click the track to navigate the conversation.
+  const moveOrbToPointer = useCallback(
+    (clientY: number) => {
+      const chat = chatRef.current;
+      const track = trackRef.current;
+
+      if (!chat || !track) return;
+
+      const rect = track.getBoundingClientRect();
+      const maxTop = Math.max(0, track.clientHeight - ORB_SIZE);
+      const maxScroll = chat.scrollHeight - chat.clientHeight;
+
+      if (maxTop <= 0 || maxScroll <= 0) {
+        chat.scrollTop = 0;
+        setOrbTop(0);
+        return;
+      }
+
+      const nextTop = Math.max(
+        0,
+        Math.min(maxTop, clientY - rect.top - ORB_SIZE / 2)
+      );
+
+      setOrbTop(nextTop);
+      chat.scrollTop = (nextTop / maxTop) * maxScroll;
+    },
+    []
+  );
+
+  const handleTrackPointerDown = (
+    event: ReactPointerEvent<HTMLDivElement>
+  ) => {
+    if (event.button !== 0) return;
+
+    event.preventDefault();
+
+    draggingRef.current = true;
+    setIsDragging(true);
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+    moveOrbToPointer(event.clientY);
+  };
+
+  const handleTrackPointerMove = (
+    event: ReactPointerEvent<HTMLDivElement>
+  ) => {
+    if (!draggingRef.current) return;
+
+    moveOrbToPointer(event.clientY);
+  };
+
+  const handleTrackPointerUp = (
+    event: ReactPointerEvent<HTMLDivElement>
+  ) => {
+    draggingRef.current = false;
+    setIsDragging(false);
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  };
 
   const handleSend = async (message: string) => {
     const cleanMessage = message.trim();
@@ -136,14 +262,13 @@ export default function LunaAssistant() {
     >
       <SectionLabel number="03">Meet LUNA</SectionLabel>
 
-      <div className="grid min-h-[620px] overflow-hidden rounded-2xl border-2 border-[#19171c] bg-[#19171c] text-[#f8f2e8] shadow-[0_18px_60px_rgba(25,23,28,0.12)] sm:min-h-[680px] lg:min-h-[700px] lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="grid h-[680px] grid-cols-1 overflow-hidden rounded-2xl border-2 border-[#19171c] bg-[#19171c] text-[#f8f2e8] shadow-[0_18px_60px_rgba(25,23,28,0.12)] sm:h-[720px] lg:h-[700px] lg:grid-cols-[0.8fr_1.2fr]">
         {/* LEFT PANEL */}
-        <div className="relative flex flex-col justify-center overflow-hidden p-8 sm:p-10 md:p-14 lg:p-12 xl:p-16">
+        <div className="relative flex min-h-0 flex-col justify-center overflow-hidden p-8 sm:p-10 md:p-14 lg:p-12 xl:p-16">
           <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#8c70d0]/30 blur-3xl" />
           <div className="absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-[#8c70d0]/10 blur-3xl" />
 
           <div className="relative z-10">
-            {/* LUNA illustration */}
             <div className="luna-panel-art relative mb-5 flex h-44 w-44 items-center justify-center sm:h-52 sm:w-52">
               <div className="absolute inset-3 rounded-full bg-[#8c70d0]/20 blur-2xl" />
 
@@ -172,10 +297,11 @@ export default function LunaAssistant() {
           </div>
         </div>
 
-        {/* RIGHT PANEL — CHAT */}
-        <div className="flex min-h-[580px] flex-col bg-[#eee5d7] p-4 text-[#19171c] sm:p-6 md:p-8 lg:min-h-0 lg:p-8 xl:p-10">
+        {/* RIGHT PANEL — FIXED CHAT */}
+        <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#eee5d7] p-4 text-[#19171c] sm:p-6 md:p-8 lg:p-8 xl:p-10">
+          {/* Fixed chat header */}
           <div className="mb-5 flex shrink-0 items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-[#8c70d0]/15">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#8c70d0]/15">
               <img
                 src="/images/luna-orb.png"
                 alt=""
@@ -184,7 +310,7 @@ export default function LunaAssistant() {
               />
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="text-lg font-medium">LUNA</p>
               <p className="font-mono text-[10px] text-[#19171c]/45">
                 JEMIMAH'S PORTFOLIO ASSISTANT
@@ -199,7 +325,7 @@ export default function LunaAssistant() {
                     ? "Last request failed"
                     : "Ready"
               }
-              className={`ml-auto h-2.5 w-2.5 rounded-full ${
+              className={`ml-auto h-2.5 w-2.5 shrink-0 rounded-full ${
                 isLoading
                   ? "animate-pulse bg-[#f4d35e]"
                   : hasError
@@ -209,28 +335,82 @@ export default function LunaAssistant() {
             />
           </div>
 
-          <div
-            aria-live="polite"
-            className="flex min-h-[380px] flex-1 flex-col gap-4 overflow-y-auto overscroll-contain rounded-2xl border border-[#19171c]/5 bg-[#f4eee3] p-4 sm:min-h-[420px] sm:p-5 lg:min-h-[460px] lg:p-6"
-          >
-            {messages.map((message, index) => (
-              <ChatMessage
-                key={`${message.role}-${index}`}
-                role={message.role}
-                content={message.content}
-              />
-            ))}
+          {/* Message area + custom magic orb */}
+          <div className="relative flex min-h-0 flex-1">
+            <div
+              id="luna-chat-messages"
+              ref={chatRef}
+              aria-live="polite"
+              className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-x-hidden overflow-y-auto overscroll-contain rounded-2xl border border-[#19171c]/5 bg-[#f4eee3] p-4 pr-10 sm:p-5 sm:pr-10 lg:p-6 lg:pr-10 [&::-webkit-scrollbar]:hidden"
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+              }}
+            >
+              {messages.map((message, index) => (
+                <ChatMessage
+                  key={`${message.role}-${index}`}
+                  role={message.role}
+                  content={message.content}
+                />
+              ))}
 
-            {isLoading && (
-              <ChatMessage
-                role="assistant"
-                content="LUNA is thinking... ✨"
-              />
-            )}
+              {isLoading && (
+                <ChatMessage
+                  role="assistant"
+                  content="LUNA is thinking... ✨"
+                />
+              )}
+            </div>
 
-            <div ref={bottomRef} />
+            {/* Magic scroll track */}
+            <div
+              ref={trackRef}
+              role="scrollbar"
+              aria-label="Scroll through LUNA's conversation"
+              aria-controls="luna-chat-messages"
+              aria-orientation="vertical"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(
+                chatRef.current &&
+                  chatRef.current.scrollHeight >
+                    chatRef.current.clientHeight
+                  ? (chatRef.current.scrollTop /
+                      (chatRef.current.scrollHeight -
+                        chatRef.current.clientHeight)) *
+                      100
+                  : 0
+              )}
+              onPointerDown={handleTrackPointerDown}
+              onPointerMove={handleTrackPointerMove}
+              onPointerUp={handleTrackPointerUp}
+              onPointerCancel={handleTrackPointerUp}
+              className="absolute bottom-3 right-1 top-3 z-10 w-7 cursor-pointer touch-none rounded-full bg-[#8c70d0]/10"
+            >
+              {/* Decorative track glow */}
+              <div className="pointer-events-none absolute inset-x-2 inset-y-1 rounded-full bg-gradient-to-b from-[#8c70d0]/10 via-[#8c70d0]/25 to-[#8c70d0]/10" />
+
+              {/* Draggable glowing orb */}
+              <div
+                aria-hidden="true"
+                className={`pointer-events-none absolute left-1/2 flex h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full border border-white/80 bg-gradient-to-br from-[#d9c8ff] via-[#9c76f5] to-[#6d36d9] shadow-[0_0_8px_rgba(140,112,208,0.75),0_0_20px_rgba(140,112,208,0.5)] ${
+                  isDragging
+                    ? "scale-110"
+                    : "transition-[top,transform] duration-100"
+                }`}
+                style={{ top: `${orbTop}px` }}
+              >
+                <Sparkles
+                  size={13}
+                  strokeWidth={2.5}
+                  className="text-white drop-shadow-sm"
+                />
+              </div>
+            </div>
           </div>
 
+          {/* Fixed input at the bottom */}
           <div className="mt-4 shrink-0">
             <ChatInput
               onSend={handleSend}

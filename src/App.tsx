@@ -33,27 +33,27 @@ function App() {
     });
   }, []);
 
-  // Hide the floating button while the LUNA section is visible.
-  useEffect(() => {
-    const lunaSection = document.getElementById("ask-luna");
+// Hide the floating LUNA button only while the LUNA section is visible.
+useEffect(() => {
+  const lunaSection = document.getElementById("ask-luna");
 
-    if (!lunaSection) return;
+  if (!lunaSection) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsLunaVisible(entry.isIntersecting);
-      },
-      {
-        threshold: 0.15,
-      }
-    );
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      setIsLunaVisible(entry.isIntersecting);
+    },
+    {
+      threshold: 0,
+    }
+  );
 
-    observer.observe(lunaSection);
+  observer.observe(lunaSection);
 
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  return () => {
+    observer.disconnect();
+  };
+}, []);
 
   const goToLuna = () => {
     document.getElementById("ask-luna")?.scrollIntoView({
