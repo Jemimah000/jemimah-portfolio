@@ -1,4 +1,3 @@
-
 import { Bot, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import SectionLabel from "../common/SectionLabel";
@@ -117,53 +116,57 @@ export default function LunaAssistant() {
   return (
     <section
       id="ask-luna"
-      className="px-6 py-28 lg:px-12"
+      className="px-5 pb-20 pt-10 sm:px-6 sm:pt-12 lg:px-12 lg:pt-14"
     >
       <SectionLabel number="03">
         Meet LUNA
       </SectionLabel>
 
-      <div className="grid overflow-hidden rounded-2xl border-2 border-[#19171c]/15 bg-[#19171c] text-[#f8f2e8] lg:grid-cols-[0.8fr_1.2fr]">
+      {/* Larger LUNA workspace */}
+      <div className="grid min-h-[620px] overflow-hidden rounded-2xl border-2 border-[#19171c] bg-[#19171c] text-[#f8f2e8] shadow-[0_18px_60px_rgba(25,23,28,0.12)] sm:min-h-[680px] lg:min-h-[700px] lg:grid-cols-[0.8fr_1.2fr]">
 
         {/* LEFT PANEL */}
-        <div className="relative overflow-hidden p-8 md:p-12">
-          <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-[#8c70d0]/30 blur-3xl" />
+        <div className="relative flex flex-col justify-center overflow-hidden p-8 sm:p-10 md:p-14 lg:p-12 xl:p-16">
+          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#8c70d0]/30 blur-3xl" />
+
+          <div className="absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-[#8c70d0]/10 blur-3xl" />
 
           <div className="relative">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#8c70d0]">
-              <Bot />
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#8c70d0] shadow-lg shadow-[#8c70d0]/20">
+              <Bot size={30} />
             </div>
 
-            <h2 className="mt-8 font-display text-5xl">
+            <h2 className="mt-8 font-display text-4xl sm:text-5xl lg:text-5xl xl:text-6xl">
               Meet LUNA.
             </h2>
 
-            <p className="mt-5 max-w-md leading-7 text-white/60">
+            <p className="mt-6 max-w-md text-base leading-8 text-white/65 sm:text-lg">
               I'm Jemimah's AI portfolio assistant.
               Ask me about her projects, technical
               skills, education, creative work, and
               professional interests.
             </p>
 
-            <div className="mt-8 flex items-center gap-2 font-mono text-[10px] text-[#f4d35e]">
-              <Sparkles size={13} />
-              LUNA — Assisstant of Jemimah
+            <div className="mt-10 flex items-center gap-2 font-mono text-xs text-[#f4d35e]">
+              <Sparkles size={15} />
+              LUNA — Assistant of Jemimah
             </div>
           </div>
         </div>
 
         {/* RIGHT PANEL */}
-        <div className="bg-[#eee5d7] p-5 text-[#19171c] md:p-7">
+        <div className="flex min-h-[580px] flex-col bg-[#eee5d7] p-4 text-[#19171c] sm:p-6 md:p-8 lg:min-h-0 lg:p-8 xl:p-10">
 
-          <div className="mb-5 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#8c70d0]">
-              <Bot size={20} />
+          {/* Chat header */}
+          <div className="mb-5 flex shrink-0 items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#8c70d0]">
+              <Bot size={23} />
             </div>
 
             <div>
-              <p className="font-medium">LUNA</p>
+              <p className="text-lg font-medium">LUNA</p>
 
-              <p className="font-mono text-[9px] text-[#19171c]/40">
+              <p className="font-mono text-[10px] text-[#19171c]/45">
                 JEMIMAH'S PORTFOLIO ASSISTANT
               </p>
             </div>
@@ -176,7 +179,7 @@ export default function LunaAssistant() {
                     ? "Last request failed"
                     : "Ready"
               }
-              className={`ml-auto h-2 w-2 rounded-full ${
+              className={`ml-auto h-2.5 w-2.5 rounded-full ${
                 isLoading
                   ? "animate-pulse bg-[#f4d35e]"
                   : hasError
@@ -186,9 +189,10 @@ export default function LunaAssistant() {
             />
           </div>
 
+          {/* Larger conversation area */}
           <div
             aria-live="polite"
-            className="flex min-h-[300px] max-h-[420px] flex-col gap-3 overflow-y-auto rounded-xl bg-[#f4eee3] p-4"
+            className="flex min-h-[380px] flex-1 flex-col gap-4 overflow-y-auto overscroll-contain rounded-2xl border border-[#19171c]/5 bg-[#f4eee3] p-4 sm:min-h-[420px] sm:p-5 lg:min-h-[460px] lg:p-6"
           >
             {messages.map((message, index) => (
               <ChatMessage
@@ -208,7 +212,8 @@ export default function LunaAssistant() {
             <div ref={bottomRef} />
           </div>
 
-          <div className="mt-4">
+          {/* Input stays below the conversation */}
+          <div className="mt-4 shrink-0">
             <ChatInput
               onSend={handleSend}
               disabled={isLoading}

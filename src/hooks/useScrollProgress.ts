@@ -1,24 +1,38 @@
+
 import { useEffect, useState } from "react";
 
-export default function useScrollProgress() {
+export default function useScrollProgress(): number {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    let animationFrame = 0;
+
     const updateProgress = () => {
-      const scrollTop =
-        window.scrollY || document.documentElement.scrollTop;
+      cancelAnimationFrame(animationFrame);
 
-      const scrollHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
+      animationFrame = requestAnimationFrame(() => {
+        const scrollTop =
+          window.scrollY ||
+          document.documentElement.scrollTop;
 
-      if (scrollHeight <= 0) {
-        setProgress(0);
-        return;
-      }
+        const documentHeight =
+          document.documentElement.scrollHeight;
 
-      setProgress(
-        Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100)),
-      );
+        const viewportHeight = window.innerHeight;
+
+        const scrollableHeight =
+          documentHeight - viewportHeight;
+
+        if (scrollableHeight <= 0) {
+          setProgress(0);
+          return;
+        }
+
+        const percentage =
+          (scrollTop / scrollableHeight) * 100;
+
+        setProgress(Math.max(0, Math.min(percentage, 100)));
+      });
     };
 
     updateProgress();
@@ -29,9 +43,18 @@ export default function useScrollProgress() {
 
     window.addEventListener("resize", updateProgress);
 
+    const observer = new ResizeObserver(updateProgress);
+    observer.observe(document.documentElement);
+
+    if (document.body) {
+      observer.observe(document.body);
+    }
+
     return () => {
+      cancelAnimationFrame(animationFrame);
       window.removeEventListener("scroll", updateProgress);
       window.removeEventListener("resize", updateProgress);
+      observer.disconnect();
     };
   }, []);
 

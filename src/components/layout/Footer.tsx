@@ -68,8 +68,12 @@ export default function Footer() {
               with a simple hello.
             </p>
 
+            {/* Opens an email addressed to Jemimah */}
+
             <a
-              href="mailto:your-email@example.com"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=jemimahmarymanuel%40gmail.com&su=Hello%20Jemimah%20-%20Portfolio%20Enquiry"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-6 flex items-center justify-between rounded-full border-2 border-[#1d1b35] bg-[#7c5ce7] px-5 py-3 font-mono text-xs text-white shadow-[4px_4px_0_#1d1b35] transition hover:-translate-x-1 hover:-translate-y-1"
             >
               Send a signal
