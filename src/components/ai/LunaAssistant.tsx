@@ -1,4 +1,3 @@
-
 import { Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import SectionLabel from "../common/SectionLabel";
@@ -9,6 +8,16 @@ type Message = {
   role: "user" | "assistant";
   content: string;
 };
+
+type HistoryMessage = {
+  role: "user" | "model";
+  content: string;
+};
+
+const API_URL = (
+  import.meta.env.VITE_LUNA_API_URL ||
+  "https://jemimah-portfolio.onrender.com"
+).replace(/\/+$/, "");
 
 const initialMessages: Message[] = [
   {
@@ -46,7 +55,7 @@ export default function LunaAssistant() {
     setIsLoading(true);
     setHasError(false);
 
-    const history = messages
+    const history: HistoryMessage[] = messages
       .filter((_, index) => index !== 0)
       .slice(-10)
       .map((item) => ({
@@ -60,7 +69,7 @@ export default function LunaAssistant() {
     ]);
 
     try {
-      const response = await fetch("/api/luna", {
+      const response = await fetch(`${API_URL}/api/luna`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,11 +80,18 @@ export default function LunaAssistant() {
         }),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         throw new Error(
-          data.error || "LUNA couldn't process your request."
+          data.error ||
+            `LUNA request failed (${response.status}). Please try again.`
+        );
+      }
+
+      if (!data.reply) {
+        throw new Error(
+          "LUNA received an empty response. Please try again."
         );
       }
 
@@ -83,8 +99,7 @@ export default function LunaAssistant() {
         ...current,
         {
           role: "assistant",
-          content:
-            data.reply || "Sorry, I couldn't generate a response.",
+          content: data.reply,
         },
       ]);
     } catch (error) {
@@ -98,7 +113,12 @@ export default function LunaAssistant() {
 
       setMessages((current) => [
         ...current,
-        { role: "assistant", content: errorMessage },
+        {
+          role: "assistant",
+          content:
+            "Sorry, I couldn't connect to LUNA right now. " +
+            errorMessage,
+        },
       ]);
     } finally {
       loadingRef.current = false;
@@ -114,7 +134,6 @@ export default function LunaAssistant() {
       <SectionLabel number="03">Meet LUNA</SectionLabel>
 
       <div className="grid min-h-[620px] overflow-hidden rounded-2xl border-2 border-[#19171c] bg-[#19171c] text-[#f8f2e8] shadow-[0_18px_60px_rgba(25,23,28,0.12)] sm:min-h-[680px] lg:min-h-[700px] lg:grid-cols-[0.8fr_1.2fr]">
-
         {/* LEFT PANEL */}
         <div className="relative flex flex-col justify-center overflow-hidden p-8 sm:p-10 md:p-14 lg:p-12 xl:p-16">
           <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#8c70d0]/30 blur-3xl" />
@@ -152,7 +171,6 @@ export default function LunaAssistant() {
 
         {/* RIGHT PANEL — CHAT */}
         <div className="flex min-h-[580px] flex-col bg-[#eee5d7] p-4 text-[#19171c] sm:p-6 md:p-8 lg:min-h-0 lg:p-8 xl:p-10">
-
           <div className="mb-5 flex shrink-0 items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-[#8c70d0]/15">
               <img

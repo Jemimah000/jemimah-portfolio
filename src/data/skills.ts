@@ -16,9 +16,9 @@ export const technicalSkills = [
 ];
 
 export const currentlyLearning = [
-  "Advanced TypeScript",
+  "Unity Engine",
   "Three.js",
   "Blender",
   "AI / LLMs",
-  "Docker",
+  "Flutter",
 ];

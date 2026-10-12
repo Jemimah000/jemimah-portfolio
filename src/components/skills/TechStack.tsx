@@ -34,11 +34,11 @@ export default function TechStack() {
 
           <ul className="mt-7 space-y-4">
             {[
-              "Advanced TypeScript",
+              "Unity Engine",
               "Three.js",
               "Blender",
               "AI / LLMs",
-              "Docker",
+              "Flutter",
             ].map((item) => (
               <li
                 key={item}
