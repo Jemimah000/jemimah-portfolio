@@ -35,10 +35,8 @@ const ai = new GoogleGenAI({
 });
 
 const modelsToTry = [
+  process.env.GEMINI_MODEL || "gemini-3.6-flash",
   "gemini-3.8-flash",
-  "gemini-3.7-flash",
-  "gemini-3.6-flash",
-  "gemini-3.5-flash-lite",
 ];
 
 const PRIVATE_MESSAGE =
@@ -73,6 +71,24 @@ function isPrivateQuestion(message) {
 function wait(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
+  });
+}
+
+function withTimeout(promise, ms, message) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error(message));
+    }, ms);
+
+    promise
+      .then((result) => {
+        clearTimeout(timer);
+        resolve(result);
+      })
+      .catch((error) => {
+        clearTimeout(timer);
+        reject(error);
+      });
   });
 }
 
@@ -149,14 +165,18 @@ app.post("/api/luna", async (req, res) => {
       );
 
       try {
-        const response = await ai.models.generateContent({
-          model,
-          contents,
-          config: {
-            systemInstruction: jemimahProfile,
-            temperature: 0.4,
-          },
-        });
+        const response = await withTimeout(
+          ai.models.generateContent({
+            model,
+            contents,
+            config: {
+              systemInstruction: jemimahProfile,
+              temperature: 0.4,
+            },
+          }),
+          18000,
+          `Gemini model ${model} timed out.`
+        );
 
         const reply =
           response.text ||
@@ -176,9 +196,9 @@ app.post("/api/luna", async (req, res) => {
           error?.message || error
         );
 
-        // Wait briefly before trying the next model.
+        // Keep the fallback path quick and avoid long retry chains.
         if (i < modelsToTry.length - 1) {
-          await wait(800);
+          await wait(300);
         }
       }
     }

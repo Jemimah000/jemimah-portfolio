@@ -16,8 +16,10 @@ type HistoryMessage = {
 
 const API_URL = (
   import.meta.env.VITE_LUNA_API_URL ||
-  "https://jemimah-portfolio.onrender.com"
+  (import.meta.env.DEV ? "" : "https://jemimah-portfolio.onrender.com")
 ).replace(/\/+$/, "");
+
+const LUNA_ENDPOINT = API_URL ? `${API_URL}/api/luna` : "/api/luna";
 
 const initialMessages: Message[] = [
   {
@@ -69,11 +71,12 @@ export default function LunaAssistant() {
     ]);
 
     try {
-      const response = await fetch(`${API_URL}/api/luna`, {
+      const response = await fetch(LUNA_ENDPOINT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        signal: AbortSignal.timeout(18000),
         body: JSON.stringify({
           message: cleanMessage,
           history,
