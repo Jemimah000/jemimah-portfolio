@@ -9,15 +9,19 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
-      "https://jemimah-portfolio.onrender.com"
+      "https://jemimah-portfolio.vercel.app",
     ],
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 
 app.use(express.json());
 
