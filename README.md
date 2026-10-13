@@ -1,5 +1,13 @@
 # React + TypeScript + Vite
 
+## LUNA Assistant
+
+LUNA uses Gemini first and automatically falls back to Groq when Gemini is unavailable. Groq defaults to `openai/gpt-oss-120b`; set `GROQ_MODEL` to another currently supported model ID to override it. Configure `GEMINI_API_KEY` and `GROQ_API_KEY` in the local `.env` file; either key may be omitted if you only want to use the other provider. `.env` is ignored by Git. Optional `GEMINI_MODEL` and `GROQ_MODEL` variables override the default models.
+
+Set the same provider key names in the production backend's environment variables (for example, the Render service running `npm run server`). Keep these values on the backend only; do not add them to `VITE_` variables or frontend code.
+
+Run the backend with `npm run server`, the portfolio with `npm run dev`, and provider fallback tests with `npm run test:server`.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

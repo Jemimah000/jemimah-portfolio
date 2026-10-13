@@ -2,12 +2,15 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
+import Groq from "groq-sdk";
 import { jemimahProfile } from "./lunaPrompt.js";
+import { generateWithFallback } from "./aiProviders.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const REQUEST_DEADLINE_MS = 17000;
 
 
 app.use(
@@ -25,14 +28,27 @@ app.use(
 
 app.use(express.json());
 
-if (!process.env.GEMINI_API_KEY) {
-  console.error("❌ GEMINI_API_KEY is missing from .env");
-  process.exit(1);
+function getEnvironmentSecret(name) {
+  const value = process.env[name]?.trim();
+  if (!value) return undefined;
+
+  const hasQuotes =
+    (value.startsWith('"') && value.endsWith('"')) ||
+    (value.startsWith("'") && value.endsWith("'"));
+
+  return (hasQuotes ? value.slice(1, -1) : value).trim() || undefined;
 }
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
+const geminiApiKey = getEnvironmentSecret("GEMINI_API_KEY");
+const groqApiKey = getEnvironmentSecret("GROQ_API_KEY");
+const ai = geminiApiKey
+  ? new GoogleGenAI({ apiKey: geminiApiKey })
+  : null;
+const groq = groqApiKey
+  ? new Groq({ apiKey: groqApiKey, maxRetries: 0 })
+  : null;
+const groqModel =
+  process.env.GROQ_MODEL?.trim() || "openai/gpt-oss-120b";
 
 const modelsToTry = [
   process.env.GEMINI_MODEL || "gemini-3.6-flash",
@@ -66,30 +82,6 @@ function isPrivateQuestion(message) {
   return privateQuestionPatterns.some((pattern) =>
     pattern.test(message)
   );
-}
-
-function wait(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
-function withTimeout(promise, ms, message) {
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      reject(new Error(message));
-    }, ms);
-
-    promise
-      .then((result) => {
-        clearTimeout(timer);
-        resolve(result);
-      })
-      .catch((error) => {
-        clearTimeout(timer);
-        reject(error);
-      });
-  });
 }
 
 app.get("/", (req, res) => {
@@ -155,76 +147,75 @@ app.post("/api/luna", async (req, res) => {
       ],
     });
 
-    let lastError = null;
-
-    for (let i = 0; i < modelsToTry.length; i++) {
-      const model = modelsToTry[i];
-
-      console.log(
-        `🤖 Trying Gemini model ${i + 1}/${modelsToTry.length}: ${model}`
-      );
-
-      try {
-        const response = await withTimeout(
-          ai.models.generateContent({
-            model,
-            contents,
-            config: {
-              systemInstruction: jemimahProfile,
-              temperature: 0.4,
-            },
-          }),
-          18000,
-          `Gemini model ${model} timed out.`
-        );
-
-        const reply =
-          response.text ||
-          "Sorry, I couldn't generate a response right now.";
-
-        console.log(`✅ LUNA response generated using ${model}`);
-
-        return res.json({
-          reply,
+    const result = await generateWithFallback({
+      geminiModels: modelsToTry,
+      groqModel,
+      hasGemini: Boolean(ai),
+      hasGroq: Boolean(groq),
+      deadlineMs: REQUEST_DEADLINE_MS,
+      generateGemini: async ({ model, signal, timeoutMs }) => {
+        const response = await ai.models.generateContent({
           model,
+          contents,
+          config: {
+            systemInstruction: jemimahProfile,
+            temperature: 0.4,
+            abortSignal: signal,
+            httpOptions: {
+              timeout: timeoutMs,
+              retryOptions: { attempts: 1 },
+            },
+          },
         });
-      } catch (error) {
-        lastError = error;
 
-        console.error(
-          `❌ ${model} failed:`,
-          error?.message || error
+        return response.text;
+      },
+      generateGroq: async ({ model, signal, timeoutMs }) => {
+        const messages = [
+          { role: "system", content: jemimahProfile },
+          ...contents.map((item) => ({
+            role: item.role === "model" ? "assistant" : "user",
+            content: item.parts.map((part) => part.text).join("\n"),
+          })),
+        ];
+        const response = await groq.chat.completions.create(
+          {
+            model,
+            messages,
+            temperature: 0.4,
+          },
+          { signal, timeout: timeoutMs, maxRetries: 0 }
         );
 
-        // Keep the fallback path quick and avoid long retry chains.
-        if (i < modelsToTry.length - 1) {
-          await wait(300);
-        }
-      }
-    }
+        return response.choices[0]?.message?.content;
+      },
+    });
 
-    console.error("❌ All Gemini models failed.");
-    console.error(lastError);
-
-    return res.status(503).json({
-      error:
-        "LUNA is temporarily busy. Please try again in a moment.",
+    return res.json({
+      reply: result.reply,
+      model: result.model,
     });
   } catch (error) {
-    console.error("❌ LUNA ERROR:");
-    console.error(error);
+    const timedOut = error?.code === "LUNA_TIMEOUT";
+    console.error(
+      `LUNA request failed: ${timedOut ? "provider deadline exceeded" : "no provider returned a reply"}`
+    );
 
-    return res.status(500).json({
-      error:
-        "LUNA is temporarily unavailable. Please try again.",
+    return res.status(timedOut ? 504 : 503).json({
+      error: timedOut
+        ? "LUNA is taking longer than expected. Please try again shortly."
+        : "LUNA is temporarily unavailable. Please try again in a moment.",
     });
   }
 });
 
 app.listen(PORT, () => {
   console.log(`🌙 LUNA backend: http://localhost:${PORT}`);
-  console.log("🤖 Gemini fallback models enabled:");
+  console.log(
+    `AI providers enabled: ${[ai && "Gemini", groq && "Groq"].filter(Boolean).join(", ") || "none"}`
+  );
   modelsToTry.forEach((model) => {
-    console.log(`   - ${model}`);
+    if (ai) console.log(`   - Gemini: ${model}`);
   });
+  if (groq) console.log(`   - Groq: ${groqModel}`);
 });
